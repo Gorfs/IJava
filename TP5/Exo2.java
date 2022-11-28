@@ -52,8 +52,10 @@ public class Exo2 {
     }
     
     public static int friends_nbr(int[][] R, int person) {
+        System.out.println("debug");
+        printArrayOfArrays(R);
         int friends = 0;
-        for (int i = 0; i < R.length; i++) {
+        for (int i = 0; i < (R.length - 1); i++) {
             if (R[person][i] == 1) {
                 friends += 1;
             }
@@ -63,11 +65,15 @@ public class Exo2 {
 
     public static int[] friends(int[][] R, int person) {
         int length = friends_nbr(R, person);
+        if (length == 0) {
+            int[] result = {}; 
+            return result;
+        }
         int[] result = new int[length];
         int found = 0;
-        for (int i = 0; i < R.length; i++) {
+        for (int i = 0; i < R.length - 1; i++) {
             if (R[person][i] == 1) {
-                result[found] = i + 1;
+                result[found ] = i + 1;
                 found += 1;
             }
         }
@@ -123,7 +129,6 @@ public class Exo2 {
     public static int[][] addUser(int[][] R, int[] t) {
         int[][] result = new int[R.length + 1][R.length + 1];
         boolean added = false;
-        // adding an extra zero to the end of each item
         for (int i = 0; i < R.length; i++) {
             int[] user = new int[R.length + 1];
             for (int j = 0; j < R.length; j++) {
@@ -157,23 +162,36 @@ public class Exo2 {
 
     // Exercise 5
 
-    public static int[] aux_friends(int[][] R, int a){
+    public static int[] aux_friends(int[][] R, int a) {
         // auxiliry function that just shows all the friends of a person a in R
         int[] result = new int[friends_nbr(R, a)];
-        int place = 0; // used for appending the values to the list
-        for (int i = 0; i < R.length; i++) {
-            if (R[a][i] == 1) {
-                result[place] = (i + 1);
-                place += 1;
-            }
+        if (result.length == 0) {
             return result;
         }
-        
-
+        int place = 0; // used for appending the values to the list
+        for (int i = 0; i < R.length -1 ; i++) {
+            if (R[a][i] == 1) {
+                result[place] = i ;
+                place ++;
+            }
+        }
+        return result;
     }
+    
+
     public static int[][] invite(int[][] R, int a) {
         // takes a person, shows all his friends, then shows all the friends of friends
-        
+        int result[][] = new int[friends_nbr(R, a) + 1][];
+        int index = 0;
+        for (int i = 0; i < R.length; i++) {
+            if (R[a][i] == 1) {
+                result[index] = aux_friends(R, i);
+                index++;
+            }
+        }
+        result[index-1] = aux_friends(R, a); 
+        return result;
+
         //
     }
 
@@ -188,10 +206,15 @@ public class Exo2 {
         
         System.out.println("common friends between 1 and 2 are ");
         printArr(common_friends(graph, 1, 2));
+
         System.out.println("adding new user");
-        printArrayOfArrays(addUser(graph));
+        int[] userFriends = {1,3,4};
+        printArrayOfArrays(addUser(graph, userFriends));
+
         String[] noms = { "archie", "matheo", "Frank", "christope", "lucy", "telephone", "rat", "toto" };
         System.out.println("the most popular person is " + popular(graph, noms));
+        
+        printArrayOfArrays(invite( graph,4));
 
         
     }
