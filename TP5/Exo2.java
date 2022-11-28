@@ -157,8 +157,24 @@ public class Exo2 {
 
     // Exercise 5
 
-    public static int[] invite(int[][] R, int a) {
+    public static int[] aux_friends(int[][] R, int a){
+        // auxiliry function that just shows all the friends of a person a in R
+        int[] result = new int[friends_nbr(R, a)];
+        int place = 0; // used for appending the values to the list
+        for (int i = 0; i < R.length; i++) {
+            if (R[a][i] == 1) {
+                result[place] = (i + 1);
+                place += 1;
+            }
+            return result;
+        }
         
+
+    }
+    public static int[][] invite(int[][] R, int a) {
+        // takes a person, shows all his friends, then shows all the friends of friends
+        
+        //
     }
 
     public static void main(String[] args){
